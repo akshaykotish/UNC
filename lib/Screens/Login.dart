@@ -1,14 +1,28 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:unc/BodyParts/UNCButton.dart';
+import 'package:unc/BodyParts/UNCTextField.dart';
+import 'package:unc/Screens/Home.dart';
+import 'package:unc/Screens/Signup.dart';
 import 'package:unc/UNCRequest/Basic.dart';
 
 
 class LoginPage extends StatefulWidget {
+  const LoginPage({super.key});
+
   @override
   _LoginPageState createState() => _LoginPageState();
 }
 
 class _LoginPageState extends State<LoginPage> {
   Basic basic = Basic();
+  String message = "";
+
+  @override
+  void initState() {
+    basic.LoadTokens();
+    super.initState();
+  }
 
   // Controllers to handle text input
   final TextEditingController _userIDController = TextEditingController();
@@ -20,55 +34,45 @@ class _LoginPageState extends State<LoginPage> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Login Page'),
-      ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
+    return SingleChildScrollView(
+      child: Container(
+        margin: EdgeInsets.all(20),
+        padding: EdgeInsets.all(20),
         child: Column(
           children: [
+            Container(
+                width: MediaQuery.of(context).size.width,
+                padding: EdgeInsets.only(left: 15, bottom: 20),
+                child: Text("Login", style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 30, fontWeight: FontWeight.bold ), textAlign: TextAlign.left,)),
             // UserID Field
-            TextField(
-              controller: _userIDController,
-              decoration: InputDecoration(
-                labelText: 'User ID',
-              ),
-            ),
+            UNCTextField(hintText: "UNC User Id", controller: _userIDController, ispassword: false, icondata: Icons.account_circle_sharp,),
             // Password Field
-            TextField(
-              controller: _passwordController,
-              decoration: InputDecoration(
-                labelText: 'Password',
-              ),
-              obscureText: true, // Hide password
-            ),
-            SizedBox(height: 16.0),
+            UNCTextField(hintText: "Password", controller: _passwordController, ispassword: true, icondata: Icons.password,),
+
+            _otpRequested == false ? const SizedBox(height: 16.0) : Container(),
             // Request OTP Button
-            ElevatedButton(
-              onPressed: () {
-                // Handle Request OTP action
-                requestOTP();
-              },
-              child: Text('Request OTP'),
-            ),
-            if (_otpRequested)
+            _otpRequested == false ? UNCButton(ButtonName: "Request OTP", onCLick: requestOTP,) : Container(),
+            _otpRequested == true ?
             // OTP Field (visible only after OTP is requested)
-              TextField(
-                controller: _otpController,
-                decoration: InputDecoration(
-                  labelText: 'OTP',
-                ),
-              ),
-            SizedBox(height: 16.0),
-            // Login Button
-            ElevatedButton(
-              onPressed: () {
-                // Handle Login action
-                handleLogin();
+                Column(
+                  children: <Widget>[
+                    UNCTextField(hintText: "OTP", controller: _otpController, ispassword: false, icondata: Icons.pin),
+                    const SizedBox(height: 16.0),
+                    // Login Button
+                    UNCButton(ButtonName: "Login", onCLick: (){handleLogin();},),
+                  ],
+                ) : Container(),
+            GestureDetector(
+              onTap: (){
+                Navigator.push(context, MaterialPageRoute(builder: (context)=>Signup()));
               },
-              child: Text('Login'),
+              child: Container(
+                margin: EdgeInsets.all(15),
+                child: Text("Register Now!", style: TextStyle(color: Colors.white),),
+              ),
             ),
+            Text(message, style: TextStyle(color: Colors.red),),
+
           ],
         ),
       ),
@@ -77,7 +81,7 @@ class _LoginPageState extends State<LoginPage> {
 
   // Function to handle Request OTP action
   void requestOTP() {
-    basic.RequestOTP("UNI2846122", "Shivamkumar&1");
+    basic.RequestOTP(_userIDController.text, _passwordController.text);
     // Simulate requesting OTP
     setState(() {
       _otpRequested = true;
@@ -87,17 +91,26 @@ class _LoginPageState extends State<LoginPage> {
   }
 
   // Function to handle Login action
-  void handleLogin() {
-    basic.Run();
-    // Simulate verifying the OTP
-    // if (_otpRequested) {
-    //   //basic.RequestLogin("UNI2846122", "Shivamkumar&1", _otpController.text);
-    //   // Simulate successful login
-    //   print('Login successful!');
-    // } else {
-    //   // Invalid OTP
-    //   print('Invalid OTP!');
-    // }
-    // In a real application, integrate login verification here
+  Future<void> handleLogin() async {
+    if (_otpRequested) {
+      bool isitlogin = await basic.RequestLogin(_userIDController.text, _passwordController.text, _otpController.text);
+
+      if(isitlogin)
+        {
+          message = "";
+          Navigator.push(context, MaterialPageRoute(builder: (context)=>HomePage()));
+        }
+      else{
+        message = "Invalid credentials or OTP.";
+        setState(() {
+
+        });
+      }
+
+      // Simulate successful login
+    } else {
+      // Invalid OTP
+      print('Invalid OTP!');
+    }
   }
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:unc/UNCRequest/Basic.dart';
+import 'package:unc/Screens/Signup.dart';
+import 'package:unc/Screens/Splash.dart';
 
 import 'Screens/Login.dart';
 
@@ -14,12 +15,13 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: LoginPage(),
+      home: SplashScreen(),
     );
   }
 }
