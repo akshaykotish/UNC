@@ -43,7 +43,7 @@ class _LoginPageState extends State<LoginPage> {
             Container(
                 width: MediaQuery.of(context).size.width,
                 padding: EdgeInsets.only(left: 15, bottom: 20),
-                child: Text("Login", style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 30, fontWeight: FontWeight.bold ), textAlign: TextAlign.left,)),
+                child: Text("Login", style: TextStyle(color: Colors.white.withOpacity(0.5), fontSize: 18, fontWeight: FontWeight.bold ), textAlign: TextAlign.left,)),
             // UserID Field
             UNCTextField(hintText: "UNC User Id", controller: _userIDController, ispassword: false, icondata: Icons.account_circle_sharp,),
             // Password Field
@@ -82,6 +82,7 @@ class _LoginPageState extends State<LoginPage> {
   // Function to handle Request OTP action
   void requestOTP() {
     basic.RequestOTP(_userIDController.text, _passwordController.text);
+    message = "OTP sent to email id.";
     // Simulate requesting OTP
     setState(() {
       _otpRequested = true;

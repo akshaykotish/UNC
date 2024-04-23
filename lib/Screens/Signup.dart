@@ -17,6 +17,8 @@ class _SignupState extends State<Signup> {
   late WebViewController _controller;
   final String url = 'https://example.com'; // Replace with your URL
 
+  bool browserloaded = false;
+
   var controller = WebViewController();
 
   var cookies;
@@ -43,6 +45,9 @@ class _SignupState extends State<Signup> {
           print("Idm");
           String jscode2 = "document.getElementsByClassName('text-gray-300 text-sm text-left pl-2 mb-2')[0].innerHTML = " + '"' + "<a href='https://metamask.io/'><img src='https://upload.wikimedia.org/wikipedia/commons/thumb/3/36/MetaMask_Fox.svg/2048px-MetaMask_Fox.svg.png' width='30px' height='30px' /> Create a MetaMask Wallet First</a>" + '"';
           controller.runJavaScript(jscode2);
+          setState(() {
+            browserloaded = true;
+          });
           //controller.runJavaScript("document.getElementById('example_wrapper').style = 'margin-top:20%';");
         },
       onUrlChange: (url) async {
@@ -76,9 +81,11 @@ class _SignupState extends State<Signup> {
         ),
         title: Text("Signup", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,),),
       ),
-      body: WebViewWidget(
+      body:  browserloaded ? WebViewWidget(
         controller: controller,
-      ),
+      ) : Center(
+        child: CircularProgressIndicator(),
+    ),
     );
   }
 }

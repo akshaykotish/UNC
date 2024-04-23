@@ -96,8 +96,8 @@ class _AnimatedContainersPageState extends State<AnimatedContainersPage>
                       Navigator.push(context, MaterialPageRoute(builder: (context)=>WebViewPage(url: allpagelinks.entries.elementAt(index).value, Title: allpagelinks.entries.elementAt(index).key)));
                     },
                     child: Container(
-                      margin: EdgeInsets.only(left: 20, right: 20, top: 10, bottom: 10),
-                      height: 60,
+                      margin: EdgeInsets.only(left: 20, right: 20, top: 5, bottom: 5),
+                      height: 50,
                       padding: EdgeInsets.all(10),
                       decoration: BoxDecoration(
                         color: Colors.white.withOpacity(0.2),

@@ -14,7 +14,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   double _opacity = 0.0;
   double _opacityofwidget = 0.0;
-  double _top = 300; // Initial top position of the logo (center of the screen)
+  double _top = 380; // Initial top position of the logo (center of the screen)
 
   bool mounted = false;
 
@@ -29,7 +29,7 @@ class _SplashScreenState extends State<SplashScreen> {
         {
           if(mounted) {
             setState(() {
-              _top = 300;
+              _top = 380;
               _opacityofwidget = 0.0;
             });
           }

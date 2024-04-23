@@ -23,6 +23,8 @@ class _WebViewPageState extends State<WebViewPage> {
 
   var controller = WebViewController();
 
+  bool browserloaded = false;
+
   var cookies;
   Basic basic = Basic();
 
@@ -38,10 +40,7 @@ class _WebViewPageState extends State<WebViewPage> {
   Future<void> Setup() async {
     await LoadCookies();
     controller.setJavaScriptMode(JavaScriptMode.unrestricted);
-    controller.runJavaScript("document.cookie=XSRF-TOKEN=${cookies["XSRF-TOKEN"].toString()}");
-    controller.runJavaScript("document.cookie=uni_session=${cookies["uni_session"].toString()}");
-    
-    
+
     var dashboardheader = {
       "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
       "accept-language": "en-US,en;q=0.9",
@@ -66,11 +65,19 @@ class _WebViewPageState extends State<WebViewPage> {
 
     print("Removing Header");
     controller.setNavigationDelegate(NavigationDelegate(
+      onHttpAuthRequest: (httprequest) async {
+        await LoadCookies();
+        controller.runJavaScript("document.cookie=XSRF-TOKEN=${cookies["XSRF-TOKEN"].toString()}");
+        controller.runJavaScript("document.cookie=uni_session=${cookies["uni_session"].toString()}");
+      },
       onPageFinished: (url){
         String jscode = "document.getElementsByTagName('header')[0].innerHTML = " + '"' + "<div style='display: flex; flex-wrap: wrap; justify-content: center; align-items: center; align-content: center; width: 100%; height: 5vh; overflow: auto; flex-direction: row; color:white; font-weight:600; font-size:10pt;'><img src='https://unicitizens.com/images/logo.png' width='30%' /><div style='width:60%; text-align:right; margin-top:2%; margin-bottom:2%;'>" + widget.Title + "</div></div>" + '"';
         controller.runJavaScript(jscode);
         controller.runJavaScript('document.getElementById("dashboard").style = "background:black";');
         //controller.runJavaScript("document.getElementById('example_wrapper').style = 'margin-top:20%';");
+        setState(() {
+          browserloaded = true;
+        });
       }
     ));
 
@@ -102,9 +109,11 @@ class _WebViewPageState extends State<WebViewPage> {
         ),
         title: Text(widget.Title, style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,),),
       ),
-      body: WebViewWidget(
+      body: browserloaded ? WebViewWidget(
         controller: controller,
 
+      ) : Center(
+        child: CircularProgressIndicator(),
       ),
     );
   }

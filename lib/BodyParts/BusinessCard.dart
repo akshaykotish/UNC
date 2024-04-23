@@ -66,7 +66,7 @@ class _BusinessCardWidgetState extends State<BusinessCardWidget> with SingleTick
               borderRadius: BorderRadius.circular(12.0),
             ),
             child: Container(
-              padding: EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(10.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12.0),
                 color: _animation.value,
@@ -111,14 +111,14 @@ class _BusinessCardWidgetState extends State<BusinessCardWidget> with SingleTick
                       ),
                     ],
                   ),
-                  SizedBox(height: 8),
+                  SizedBox(height: 5),
                   Text("Wallet ID", style: TextStyle(fontSize: 10, color: Colors.white),),
                   Text(
                     widget.WalletID,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold,
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,
                       color: Colors.yellow,),
                   ),
-                  SizedBox(height: 18),
+                  SizedBox(height: 10),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
