@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:unc/BodyParts/AnimatedBackground.dart';
 import 'package:unc/Screens/Home.dart';
 import 'package:unc/Screens/Login.dart';
 
@@ -88,38 +89,40 @@ class _SplashScreenState extends State<SplashScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.black, // Dark background
-      body: Stack(
-        children: [
-          AnimatedPositioned(
-            duration: Duration(milliseconds: 400),
-            top: _top, // Control the vertical position of the logo
-            left: MediaQuery.of(context).size.width / 2 - 100, // Center horizontally
-            child: AnimatedOpacity(
-              opacity: _opacity,
-              duration: Duration(seconds: 2),
-              child: Image.asset(
-                'assets/images/logo.png', // Path to the logo image
-                width: 200,
-                height: 200,
-              ),
-            ),
-          ),
-          // Another widget in the center of the screen
-          Positioned.fill(
-            top: 100,
-            child: Align(
-              alignment: Alignment.center,
-              child: Visibility(
-                visible: _top < 100, // Show the widget when the logo moves to the top
-                child: AnimatedOpacity(
-                  opacity: _opacityofwidget,
-                  duration: Duration(seconds: 6),
-                  child: LoginPage()
+      body: AnimatedGradientBackground(
+        child: Stack(
+          children: [
+            AnimatedPositioned(
+              duration: Duration(milliseconds: 400),
+              top: _top, // Control the vertical position of the logo
+              left: MediaQuery.of(context).size.width / 2 - 100, // Center horizontally
+              child: AnimatedOpacity(
+                opacity: _opacity,
+                duration: Duration(seconds: 2),
+                child: Image.asset(
+                  'assets/images/logo.png', // Path to the logo image
+                  width: 200,
+                  height: 200,
                 ),
               ),
             ),
-          ),
-        ],
+            // Another widget in the center of the screen
+            Positioned.fill(
+              top: 100,
+              child: Align(
+                alignment: Alignment.center,
+                child: Visibility(
+                  visible: _top < 100, // Show the widget when the logo moves to the top
+                  child: AnimatedOpacity(
+                    opacity: _opacityofwidget,
+                    duration: Duration(seconds: 6),
+                    child: LoginPage()
+                  ),
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

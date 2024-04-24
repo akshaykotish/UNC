@@ -1,10 +1,11 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:unc/UNCRequest/Basic.dart';
 import 'package:webview_flutter/webview_flutter.dart';
+
+import '../BodyParts/AnimatedBackground.dart';
 
 
 class WebViewPage extends StatefulWidget {
@@ -41,6 +42,10 @@ class _WebViewPageState extends State<WebViewPage> {
     await LoadCookies();
     controller.setJavaScriptMode(JavaScriptMode.unrestricted);
 
+    var setokay = await controller.runJavaScriptReturningResult("document.cookie='" + "XSRF-TOKEN=${cookies["XSRF-TOKEN"].toString()}" + ";'");
+    var setsokay = await controller.runJavaScriptReturningResult("document.cookie='" + "uni_session=${cookies["uni_session"].toString()}" + ";'");
+
+
     var dashboardheader = {
       "accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7",
       "accept-language": "en-US,en;q=0.9",
@@ -70,11 +75,20 @@ class _WebViewPageState extends State<WebViewPage> {
         controller.runJavaScript("document.cookie=XSRF-TOKEN=${cookies["XSRF-TOKEN"].toString()}");
         controller.runJavaScript("document.cookie=uni_session=${cookies["uni_session"].toString()}");
       },
-      onPageFinished: (url){
+      onPageFinished: (url) async {
         String jscode = "document.getElementsByTagName('header')[0].innerHTML = " + '"' + "<div style='display: flex; flex-wrap: wrap; justify-content: center; align-items: center; align-content: center; width: 100%; height: 5vh; overflow: auto; flex-direction: row; color:white; font-weight:600; font-size:10pt;'><img src='https://unicitizens.com/images/logo.png' width='30%' /><div style='width:60%; text-align:right; margin-top:2%; margin-bottom:2%;'>" + widget.Title + "</div></div>" + '"';
         controller.runJavaScript(jscode);
-        controller.runJavaScript('document.getElementById("dashboard").style = "background:black";');
+        controller.runJavaScript('document.getElementById("dashboard").style = "linear-gradient(to top, #075985, #0f172a);');
         //controller.runJavaScript("document.getElementById('example_wrapper').style = 'margin-top:20%';");
+        var cookies11 = await controller.runJavaScriptReturningResult("document.cookie");
+        print("COokies");
+        print(cookies11);
+        if(cookies11.toString().contains("XSRF-TOKEN") == false)
+          {
+            var setokay = await controller.runJavaScriptReturningResult("document.cookie='" + "XSRF-TOKEN=${cookies["XSRF-TOKEN"].toString()}" + ";'");
+            var setsokay = await controller.runJavaScriptReturningResult("document.cookie='" + "uni_session=${cookies["uni_session"].toString()}" + ";'");
+            controller.loadRequest(Uri.parse(widget.url), headers: dashboardheader);
+          }
         setState(() {
           browserloaded = true;
         });
@@ -112,8 +126,8 @@ class _WebViewPageState extends State<WebViewPage> {
       body: browserloaded ? WebViewWidget(
         controller: controller,
 
-      ) : Center(
-        child: CircularProgressIndicator(),
+      ) : Container(
+        child: AnimatedGradientBackground(child: Center(child: CircularProgressIndicator(color: Colors.white,))),
       ),
     );
   }

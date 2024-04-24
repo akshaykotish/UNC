@@ -2,6 +2,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:unc/BodyParts/AnimatedBackground.dart';
 import 'package:unc/Screens/Dashboard.dart';
 
 import '../BodyParts/FromHex.dart';
@@ -23,22 +24,11 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
-      body: Container(
-        decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topRight,
-              end: Alignment.bottomLeft,
-              colors: [
-                ColorFromHexCode("#075985"),
-                ColorFromHexCode("#0f172a"),
-              ],
-            ),
-        ),
+      body: AnimatedGradientBackground(
         child: AllMenues[AMindex],
       ),
       bottomNavigationBar: CurvedNavigationBar(
-        backgroundColor: Colors.black,
+        backgroundColor: ColorFromHexCode("#075985"),
         items: <Widget>[
           Icon(Icons.home, size: 30),
           Icon(Icons.list, size: 30),

@@ -3,6 +3,7 @@ import 'package:unc/Screens/Signup.dart';
 import 'package:unc/Screens/Splash.dart';
 
 import 'Screens/Login.dart';
+import 'package:unc/BodyParts/AnimatedBackground.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: SplashScreen(),
+      home: SplashScreen()
     );
   }
 }
