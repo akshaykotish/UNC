@@ -97,20 +97,20 @@ class _DashboardState extends State<Dashboard> {
                 SizedBox(height: 10,),
                 //MetaMaskCard(),
                 SizedBox(height: 20,),
-                Container(
-                    margin: EdgeInsets.only(left: 20, top: 20,),
-                    width: double.infinity,
-                    child: Text("Seed Funding", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold), textAlign: TextAlign.left,)
-                ),
-                BlurryCard(
-                  icon: seedfundparts.length > 2 ? seedfundparts[1].contains("Open") ? Icons.trending_up : Icons.curtains_closed_rounded : Icons.token,
-                  text: seedfundparts.length > 1 ? seedfundparts[0].toString() : "",
-                  number: seedfundparts.length > 3 ? seedfundparts[2].toString() : "",
-                  status: seedfundparts.length > 2 ? seedfundparts[1] : "",
-                  change: seedfundparts.length > 4 ? seedfundparts[3]: "",
-                  iconimage: "seedfundclose",
-                ),
-                SizedBox(height: 20,),
+                // Container(
+                //     margin: EdgeInsets.only(left: 20, top: 20,),
+                //     width: double.infinity,
+                //     child: Text("Seed Funding", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold), textAlign: TextAlign.left,)
+                // ),
+                // BlurryCard(
+                //   icon: seedfundparts.length > 2 ? seedfundparts[1].contains("Open") ? Icons.trending_up : Icons.curtains_closed_rounded : Icons.token,
+                //   text: seedfundparts.length > 1 ? seedfundparts[0].toString() : "",
+                //   number: seedfundparts.length > 3 ? seedfundparts[2].toString() : "",
+                //   status: seedfundparts.length > 2 ? seedfundparts[1] : "",
+                //   change: seedfundparts.length > 4 ? seedfundparts[3]: "",
+                //   iconimage: "seedfundclose",
+                // ),
+                // SizedBox(height: 20,),
                 Container(
                   margin: EdgeInsets.only(left: 20, top: 20,),
                   width: double.infinity,

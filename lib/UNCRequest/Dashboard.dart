@@ -130,6 +130,7 @@ class HandleDashboardRequest{
             title.toLowerCase().contains("bonus") ? "bonus" :
             title.toLowerCase().contains("seed") ? "seed" :
             title.toLowerCase().contains("usdt") ? "usdt" :
+            title.toLowerCase().contains("status") ? "status" :
             title.toLowerCase().contains("token") ? "token" : "unc";
 
         String mydata = title + ";" + value + ";" + imagedata;
@@ -161,6 +162,7 @@ class HandleDashboardRequest{
         title.toLowerCase().contains("bonus") ? "bonus" :
         title.toLowerCase().contains("seed") ? "seed" :
         title.toLowerCase().contains("usdt") ? "usdt" :
+        title.toLowerCase().contains("status") ? "status" :
         title.toLowerCase().contains("token") ? "token" : "unc";
 
         String mydata = title + ";" + details + ";" + value + ";" + imagedata;

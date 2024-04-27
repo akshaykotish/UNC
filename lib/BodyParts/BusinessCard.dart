@@ -70,7 +70,7 @@ class _BusinessCardWidgetState extends State<BusinessCardWidget> with SingleTick
               padding: EdgeInsets.all(20.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12.0),
-                image: DecorationImage(image: AssetImage("./assets/images/cardbackground.png"), fit: BoxFit.cover, colorFilter: ColorFilter.mode(Colors.black54.withOpacity(0.9), BlendMode.dstATop)),
+                image: DecorationImage(image: NetworkImage("https://unicitizens.com/images/dashboard/welcome-bg.jpg"), fit: BoxFit.cover, colorFilter: ColorFilter.mode(Colors.black54.withOpacity(0.9), BlendMode.dstATop)),
                 color: _animation.value,
                   boxShadow: [
                   BoxShadow(color: ColorFromHexCode("#001A33").withOpacity(0.7), blurRadius: 4,),
@@ -124,6 +124,7 @@ class _BusinessCardWidgetState extends State<BusinessCardWidget> with SingleTick
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: <Widget>[
                         Container(
+                          margin:EdgeInsets.only(top: 10,),
                           padding: EdgeInsets.only(left: 5, right: 5,),
                           decoration:BoxDecoration(
                             color: Colors.white.withOpacity(0.7),
@@ -136,7 +137,7 @@ class _BusinessCardWidgetState extends State<BusinessCardWidget> with SingleTick
                                 IconButton(onPressed: () {
                                   // Copy referral link to clipboard
                                   Clipboard.setData(
-                                    ClipboardData(text: referralLink + widget.UserID.replaceAll("User-ID: ", "")),
+                                    ClipboardData(text: widget.WalletID),
                                   );
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
@@ -152,7 +153,7 @@ class _BusinessCardWidgetState extends State<BusinessCardWidget> with SingleTick
                   ),
                   Container(
                     alignment: Alignment.centerLeft,
-                    padding: EdgeInsets.only(top: 40, bottom: 0),
+                    padding: EdgeInsets.only(top: 15, bottom: 0),
                     child: Text("${widget.UserID}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 10),),
                   ),
                   Container(

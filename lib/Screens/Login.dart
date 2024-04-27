@@ -99,18 +99,34 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> requestOTP() async {
     if(_userIDController.text != "" && _passwordController.text != "") {
       String body = await basic.RequestOTP(_userIDController.text, _passwordController.text);
-      body = await body.replaceAll("['status': 203, 'message'':", "").replaceAll('["status": 200, "message":', "").replaceAll('"]', "");
-      message = body;
+
+      if(body.contains("Email")) {
+        int start = body.indexOf("Please verify OTP Sent on ");
+        int end = body.indexOf("Email.");
+
+        String alltext = body.substring(start, end);
+        print("ALL TEXT ${alltext}");
+
+        message = alltext;
+        setState(() {
+          _otpRequested = true;
+        });
+        _otp_fn.requestFocus();
+
+        ShowOTPAfterTime();
+        // In a real application, integrate an API call to request OTP
+        print('Requesting OTP...');
+      }
+      else{
+        message = "Invalid credentials";
+        setState(() {
+
+        });
+      }
       // Simulate requesting OTP
-      setState(() {
-        _otpRequested = true;
-      });
 
-      _otp_fn.requestFocus();
 
-      ShowOTPAfterTime();
-      // In a real application, integrate an API call to request OTP
-      print('Requesting OTP...');
+
     }
     else{
       message = "Fill the fields first";

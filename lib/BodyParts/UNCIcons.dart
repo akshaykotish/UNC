@@ -6,7 +6,7 @@ class UNCIcons{
       "seedfundopen": "./assets/uncicons/seedfundopen.png",
       "stageclose": "./assets/uncicons/prestageclose.png",
       "stageopen": "./assets/uncicons/prestageopen.png",
-      "status": "./assets/uncicons/prestageopen.png",
+      "status": "./assets/uncicons/status.png",
       "memberactive": "./assets/uncicons/memberactive.png",
       "memberinactive": "./assets/uncicons/memberinactive.png",
       "bonus": "./assets/uncicons/bonus.png",

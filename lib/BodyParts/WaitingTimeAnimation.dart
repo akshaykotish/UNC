@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'dart:math';
 
+import 'package:unc/BodyParts/AnimatedBackground.dart';
+
 class WaitingTimeAnimation extends StatefulWidget {
   @override
   _WaitingTimeAnimationState createState() => _WaitingTimeAnimationState();
@@ -55,13 +57,7 @@ class _WaitingTimeAnimationState extends State<WaitingTimeAnimation> with Single
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            image:  AssetImage("assets/images/loadingbg.png"),
-            fit: BoxFit.cover,
-          )
-        ),
+      body: AnimatedGradientBackground(
         child: Center(
           child: FadeTransition(
             opacity: _controller,
@@ -69,21 +65,24 @@ class _WaitingTimeAnimationState extends State<WaitingTimeAnimation> with Single
               margin: EdgeInsets.all(20),
               width: double.infinity,
               height: 400,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                color: Colors.white.withOpacity(0.8)
-              ),
+              // decoration: BoxDecoration(
+              //   borderRadius: BorderRadius.circular(20),
+              //   color: Colors.white.withOpacity(0.8)
+              // ),
               padding: const EdgeInsets.all(40.0),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text(
-                    currentQuote,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                    textAlign: TextAlign.center,
-                  ),
-                  SizedBox(height: 10,),
-                  CircularProgressIndicator()
+                  // Text(
+                  //   currentQuote,
+                  //   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  //   textAlign: TextAlign.center,
+                  // ),
+                  // SizedBox(height: 10,),
+                  Container(
+                      padding: EdgeInsets.all(20),
+                      child: Image.asset("assets/images/logo.png", fit: BoxFit.contain, scale: 5,)),
+                  CircularProgressIndicator(color: Colors.white,)
                 ],
               ),
             ),

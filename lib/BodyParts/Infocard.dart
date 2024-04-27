@@ -73,7 +73,7 @@ class BlurryCard extends StatelessWidget {
                 ),
                 SizedBox(width: 5,),
                 Container(
-                  width: MediaQuery.of(context).size.width/1.9,
+                  width: MediaQuery.of(context).size.width/2,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: <Widget>[
@@ -84,12 +84,12 @@ class BlurryCard extends StatelessWidget {
                 ),
                 SizedBox(width: 5,),
                 Container(
-                  width: MediaQuery.of(context).size.width/6,
+                  width: MediaQuery.of(context).size.width/5,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: <Widget>[
                       Container(
-                        padding: EdgeInsets.all(10),
+                        padding: EdgeInsets.all(8),
                         decoration: BoxDecoration(
                           color: status.contains("Close") ? ColorFromHexCode("#5D5D5D").withOpacity(0.5) :  ColorFromHexCode("#00DD65"),
                           borderRadius: BorderRadius.circular(8),
