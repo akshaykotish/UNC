@@ -85,7 +85,7 @@ class _DashboardState extends State<Dashboard> {
                   child: Row(
                     children: [
                       Text("Hello ", style: TextStyle(fontSize: 18, color: Colors.white), ),
-                      Text(HandleDashboardRequest.dashboard.FullName + "!", style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold), textAlign: TextAlign.start,),
+                      Text(HandleDashboardRequest.dashboard.FullName + "", style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold), textAlign: TextAlign.start,),
                     ],
                   ),
                 ),
