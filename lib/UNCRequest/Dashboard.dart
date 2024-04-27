@@ -11,10 +11,16 @@ class Dashboard{
   String UserID = "24435";
 
   String seedfunding = "";
+  bool sfloaded = false;
 
   List<String> pre_launch_stages = <String>[];
+  bool plsloaded = false;
+
   List<String> useractivities = <String>[];
+  bool usloaded = false;
+
   List<String> transferunc = <String>[];
+  bool tfloaded = false;
 }
 
 class HandleDashboardRequest{
@@ -51,65 +57,118 @@ class HandleDashboardRequest{
   }
 
   ExtractSeedFunding(String body){
-    var document = parse(body);
-    var seedfunddata = parse(document.getElementsByClassName("uni-card")[3].innerHtml).getElementsByTagName("h6");
+    if(dashboard.sfloaded == false) {
+      var document = parse(body);
+      var seedfunddata = parse(
+          document.getElementsByClassName("uni-card")[3].innerHtml)
+          .getElementsByTagName("h6");
 
-    String title = seedfunddata[0].text;
-    String status = seedfunddata[1].text;//.replaceAll("\n", "").replaceAll("  ", "");
-    String amount = seedfunddata[2].text;
-    String change = seedfunddata[3].text;
+      String title = seedfunddata[0].text;
+      String status = seedfunddata[1]
+          .text; //.replaceAll("\n", "").replaceAll("  ", "");
+      String amount = seedfunddata[2].text;
+      String change = seedfunddata[3].text;
 
-    print(status + ", " + amount + ", " + change);
-    dashboard.seedfunding = title + ";" + status + ";" + amount + ";" + change;
+      String imagedata = status.toLowerCase().contains("close") ? "seedfundclose" : "seedfundopen";
+
+
+      print(status + ", " + amount + ", " + change);
+
+      String mydata = title + ";" + status + ";" + amount + ";" + change + ";"  + imagedata;
+      if(dashboard.seedfunding.contains(mydata) == false) {
+        dashboard.seedfunding = mydata;
+      }
+      dashboard.sfloaded = true;
+    }
   }
 
   ExtractStages(String body){
+    if(dashboard.plsloaded == false) {
+      var document = parse(body);
+      var stagedata = document.getElementsByClassName("mt-8")[1].innerHtml;
+      var unicard = parse(stagedata).getElementsByClassName("uni-card");
 
-    var document = parse(body);
-    var stagedata = document.getElementsByClassName("mt-8")[1].innerHtml;
-    var unicard = parse(stagedata).getElementsByClassName("uni-card");
-
-    for(int i=0; i<unicard.length; i++)
-      {
+      for (int i = 0; i < unicard.length; i++) {
         String title = unicard[i].getElementsByTagName("h5")[0].text;
-        String status = unicard[i].getElementsByTagName("h6")[0].text.replaceAll("\n", "").replaceAll("  ", "").replaceAll("  ", "");
+        String status = unicard[i].getElementsByTagName("h6")[0].text
+            .replaceAll("\n", "").replaceAll("  ", "").replaceAll("  ", "");
         String subhead1 = unicard[i].getElementsByTagName("h6")[1].text;
         String subdata1 = unicard[i].getElementsByTagName("h6")[2].text;
         String subhead2 = unicard[i].getElementsByTagName("h6")[3].text;
         String subdata2 = unicard[i].getElementsByTagName("h6")[4].text;
-        print(title + " " + status + " " + subhead1 + " " + subdata1 + " " + subhead2 + " " + subdata2);
-        dashboard.pre_launch_stages.add(title + ";" + status + ";" + subhead1 + ";" + subdata1 + ";" + subhead2 + ";" + subdata2);
+        print(title + " " + status + " " + subhead1 + " " + subdata1 + " " +
+            subhead2 + " " + subdata2);
+
+        String imagedata = status.toLowerCase().contains("close") ? "stageclose" : "stageopen";
+
+        String mydata = title + ";" + status + ";" + subhead1 + ";" + subdata1 + ";" +
+            subhead2 + ";" + subdata2 + ";" + imagedata;
+
+        if(dashboard.pre_launch_stages.contains(mydata) == false) {
+          dashboard.pre_launch_stages.add(mydata);
+        }
       }
+      dashboard.plsloaded = true;
+    }
   }
 
   ExtractSmallCards(String body){
-    var document = parse(body);
-    var grids = parse(document.getElementsByClassName("grid grid-cols-2")[0].innerHtml);
-    var cards = grids.getElementsByClassName("uni-card");
-    for(int i=0; i<cards.length; i++)
-      {
+    if(dashboard.usloaded == false) {
+      var document = parse(body);
+      var grids = parse(
+          document.getElementsByClassName("grid grid-cols-2")[0].innerHtml);
+      var cards = grids.getElementsByClassName("uni-card");
+      for (int i = 0; i < cards.length; i++) {
         String title = cards[i].getElementsByTagName("h2")[0].text;
         String value = cards[i].getElementsByTagName("h1")[0].text;
         print(title + ";" + value);
-        dashboard.useractivities.add(title + ";" + value);
-      }
 
+        String imagedata =
+            title.toLowerCase().contains("status") ? "status" :
+            title.toLowerCase().contains("active member") ? "memberactive" :
+            title.toLowerCase().contains("inactive member") ? "memberinactive" :
+            title.toLowerCase().contains("bonus") ? "bonus" :
+            title.toLowerCase().contains("seed") ? "seed" :
+            title.toLowerCase().contains("usdt") ? "usdt" :
+            title.toLowerCase().contains("token") ? "token" : "unc";
+
+        String mydata = title + ";" + value + ";" + imagedata;
+
+        if(dashboard.useractivities.contains(mydata) == false) {
+          dashboard.useractivities.add(mydata);
+        }
+      }
+      dashboard.usloaded = true;
+    }
   }
 
   ExtractBigCards(String body)
   {
-    var document = parse(body);
-    var grids = parse(document.getElementsByClassName("grid")[17].innerHtml);
-    var cards = grids.getElementsByClassName("uni-card");
-    for(int i=0; i<cards.length; i++)
-    {
-      String title = cards[i].getElementsByTagName("h2")[0].text;
-      String details = cards[i].getElementsByTagName("h1")[0].text;
-      String value = cards[i].getElementsByTagName("h1")[1].text;
-      print(title + ";" + details + ";" + value);
-      dashboard.transferunc.add(title + ";" + details + ";" + value);
-    }
+    if(dashboard.tfloaded == false) {
+      var document = parse(body);
+      var grids = parse(document.getElementsByClassName("grid")[17].innerHtml);
+      var cards = grids.getElementsByClassName("uni-card");
+      for (int i = 0; i < cards.length; i++) {
+        String title = cards[i].getElementsByTagName("h2")[0].text;
+        String details = cards[i].getElementsByTagName("h1")[0].text;
+        String value = cards[i].getElementsByTagName("h1")[1].text;
+        print(title + ";" + details + ";" + value);
 
+        String imagedata =
+        title.toLowerCase().contains("status") ? "status" :
+        title.toLowerCase().contains("active member") ? "memberactive" :
+        title.toLowerCase().contains("inactive member") ? "memberinactive" :
+        title.toLowerCase().contains("bonus") ? "bonus" :
+        title.toLowerCase().contains("seed") ? "seed" :
+        title.toLowerCase().contains("usdt") ? "usdt" :
+        title.toLowerCase().contains("token") ? "token" : "unc";
+
+        String mydata = title + ";" + details + ";" + value + ";" + imagedata;
+        if(dashboard.transferunc.contains(mydata) == false) {
+          dashboard.transferunc.add(mydata);
+        }
+      }
+    }
   }
 
 
@@ -137,15 +196,15 @@ class HandleDashboardRequest{
           "sec-fetch-user": "?1",
           "upgrade-insecure-requests": "1",
           "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
-          "origin": "https://unicitizens.com",
-          "referer": "https://unicitizens.com/",
+          "origin": "https://unicitizens.io",
+          "referer": "https://unicitizens.io/",
           "intervention": '<https://www.chromestatus.com/feature/5718547946799104>; level="warning"'
         };
 
-        http.Response response = await basic.Get("https://unicitizens.com/dashboard", header: dashboardheader);
+        http.Response response = await basic.Get("https://unicitizens.io/dashboard", header: dashboardheader);
 
         print("DASJJ");
-        if (response.statusCode == 200 && response.body.contains("https://unicitizens.com/login") == true) {
+        if (response.statusCode == 200 && response.body.contains("https://unicitizens.io/login") == true) {
           prefs.remove("cookies");
           print("Removed");
           var dd = await prefs.getString("cookies");

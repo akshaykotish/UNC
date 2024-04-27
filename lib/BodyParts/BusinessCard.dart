@@ -17,7 +17,7 @@ class BusinessCardWidget extends StatefulWidget {
 class _BusinessCardWidgetState extends State<BusinessCardWidget> with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<Color?> _animation;
-  final String referralLink = 'https://unicitizens.com/signup/';
+  final String referralLink = 'https://unicitizens.io/signup/';
 
   @override
   void initState() {
@@ -61,89 +61,121 @@ class _BusinessCardWidgetState extends State<BusinessCardWidget> with SingleTick
         animation: _animation,
         builder: (context, child) {
           return Card(
-            elevation: 4.0,
+            elevation: 8.0,
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12.0),
             ),
             child: Container(
-              padding: EdgeInsets.all(10.0),
+              height: 250,
+              padding: EdgeInsets.all(20.0),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(12.0),
+                image: DecorationImage(image: AssetImage("./assets/images/cardbackground.png"), fit: BoxFit.cover, colorFilter: ColorFilter.mode(Colors.black54.withOpacity(0.9), BlendMode.dstATop)),
                 color: _animation.value,
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    child: Image.asset("assets/images/logo.png", scale: 5,),
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        widget.UserID,
-                        style: TextStyle(fontSize: 10,
-                          color: Colors.white,),
-                      ),
-                      Expanded(
-                        child: Text(
-                          //'Referral Link: $referralLink',
-                          'Refer Now',
-                          style: TextStyle(fontSize: 10,
-                            color: Colors.white,),
-                          textAlign: TextAlign.right,
-                          overflow: TextOverflow.ellipsis,
-                        ),
-                      ),
-                      IconButton(
-                        icon: Icon(Icons.copy, color: Colors.white,),
-                        onPressed: () {
-                          // Copy referral link to clipboard
-                          Clipboard.setData(
-                            ClipboardData(text: referralLink + widget.UserID.replaceAll("User-ID: ", "")),
-                          );
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text('Referral link copied to clipboard!'),
-                            ),
-                          );
-                        },
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 5),
-                  Text("Wallet ID", style: TextStyle(fontSize: 10, color: Colors.white),),
-                  Text(
-                    widget.WalletID,
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold,
-                      color: Colors.yellow,),
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        widget.CardHolderName,
-                        style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                        ),
-                      ),
-                      Container(
-                        child: Row(
-                          children: <Widget>[
-                            Image.asset("assets/images/metamask.png", scale: 50,),
-                            SizedBox(width: 10,),
-                            Text("MetaMask", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w300),)
-                          ],
-                        ),
-                      )
-                    ],
-                  ),
-
+                  boxShadow: [
+                  BoxShadow(color: ColorFromHexCode("#001A33").withOpacity(0.7), blurRadius: 4,),
                 ],
               ),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          width: 200,
+                          alignment: Alignment.centerLeft,
+                          child: Image.asset("assets/images/logo.png", scale: 7,),
+                        ),
+                        Container(
+                          alignment: Alignment.centerRight,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              IconButton(onPressed: () {
+                                // Copy referral link to clipboard
+                                Clipboard.setData(
+                                  ClipboardData(text: referralLink + widget.UserID.replaceAll("User-ID: ", "")),
+                                );
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text('Referral link copied to clipboard!'),
+                                  ),
+                                );
+                              }, icon: Icon(Icons.copy, color: Colors.white70)),
+                              Text("Refer", style: TextStyle(color: Colors.white70),)
+                            ],
+                          ),
+                        ),
+                        Container(
+                          child: Row(
+                            children: <Widget>[
+
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    padding: EdgeInsets.only(top: 15, bottom: 5),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: <Widget>[
+                        Container(
+                          padding: EdgeInsets.only(left: 5, right: 5,),
+                          decoration:BoxDecoration(
+                            color: Colors.white.withOpacity(0.7),
+                            borderRadius: BorderRadius.circular(8)
+                          ),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(widget.WalletID, style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold, fontSize: 12),),
+                                IconButton(onPressed: () {
+                                  // Copy referral link to clipboard
+                                  Clipboard.setData(
+                                    ClipboardData(text: referralLink + widget.UserID.replaceAll("User-ID: ", "")),
+                                  );
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text('Wallet address copied to clipboard!'),
+                                    ),
+                                  );
+                                }, icon: Icon(Icons.copy, color: Colors.black, size: 18,)),
+                              ],
+                            )
+                        ),
+                      ],
+                    ),
+                  ),
+                  Container(
+                    alignment: Alignment.centerLeft,
+                    padding: EdgeInsets.only(top: 40, bottom: 0),
+                    child: Text("${widget.UserID}", style: TextStyle(color: Colors.white, fontWeight: FontWeight.w500, fontSize: 10),),
+                  ),
+                  Container(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          child: Text(widget.CardHolderName, style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),),
+                        ),
+                        Container(
+                          child: Row(
+                            children: <Widget>[
+                              Image.asset("assets/images/metamask.png", scale: 45,),
+                              SizedBox(width: 10,),
+                              Text("MetaMask", style: TextStyle(fontWeight: FontWeight.w300,color: Colors.white, fontSize: 12),)
+                            ],
+                          ),
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              )
             ),
           );
         },

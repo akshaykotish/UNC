@@ -1,4 +1,6 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import './FromHex.dart';
 
 class AnimatedGradientBackground extends StatefulWidget {
@@ -43,18 +45,63 @@ class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground>
     return AnimatedBuilder(
       animation: _controller,
       builder: (context, child) {
-        return Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [_gradientColor.value!, ColorFromHexCode("#075985")],
+        return Stack(
+          children: [
+            Container(
+             width: MediaQuery.of(context).size.width,
+             height: MediaQuery.of(context).size.height,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("assets/uncicons/background.gif"),
+                  fit: BoxFit.fill,
+                )
+              ),
             ),
-          ),
-          // Add other UI elements on top of the background
-          child: widget.child,
+            Opacity(
+              opacity: 0.95,
+              child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [_gradientColor.value!, ColorFromHexCode("#075985")],
+                  ),
+                ),
+                // Add other UI elements on top of the background
+                child: widget.child,
+              ),
+            ),
+          ],
         );
       },
     );
   }
 }
+//
+// class AnimatedGradientBackground extends StatefulWidget {
+//
+//   Widget child;
+//   AnimatedGradientBackground({super.key, required this.child});
+//
+//   @override
+//   State<AnimatedGradientBackground> createState() => _AnimatedGradientBackgroundState();
+// }
+//
+// class _AnimatedGradientBackgroundState extends State<AnimatedGradientBackground> {
+//   @override
+//   Widget build(BuildContext context) {
+//     return SingleChildScrollView(
+//       child: Container(
+//         width: MediaQuery.of(context).size.width,
+//         height: MediaQuery.of(context).size.height,
+//         decoration: BoxDecoration(
+//             image: DecorationImage(
+//               image: AssetImage("assets/uncicons/background.gif"),
+//               fit: BoxFit.fill,
+//             )
+//         ),
+//         child: widget.child,
+//       ),
+//     );
+//   }
+// }

@@ -63,10 +63,10 @@ class Basic{
     return response;
   }
 
-  Future<void> RequestOTP(userid, password)
+  Future<String> RequestOTP(userid, password)
   async {
     print(cookies);
-    var url = 'https://unicitizens.com/login';
+    var url = 'https://unicitizens.io/login';
     Map<String, String> data = {
       'user_id': userid,
       'password': password,
@@ -77,8 +77,8 @@ class Basic{
       'accept-language': 'en-US,en;q=0.9',
       'content-type': 'application/x-www-form-urlencoded',
       'cookie': "XSRF-TOKEN=${cookies["XSRF-TOKEN"]};uni_session=${cookies["uni_session"]}",
-      'origin': 'https://unicitizens.com',
-      'referer': 'https://unicitizens.com/signin',
+      'origin': 'https://unicitizens.io',
+      'referer': 'https://unicitizens.io/signin',
       'sec-fetch-dest': 'empty',
       'sec-fetch-mode': 'cors',
       'sec-fetch-site': 'same-origin',
@@ -89,13 +89,14 @@ class Basic{
     };
     var response = await Post(url, data, headers);
     print(response.body);
+    return response.body;
   }
 
   Future<bool> RequestLogin(userid, password, otp)
   async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    var url = 'https://unicitizens.com/login';
+    var url = 'https://unicitizens.io/login';
     Map<String, String> data = {
       '_token': CSRFTOKEN,
       'user_id': userid,
@@ -110,9 +111,9 @@ class Basic{
       "cache-control":"no-cache",
       "content-type":"application/x-www-form-urlencoded",
       "cookie":"XSRF-TOKEN=${cookies["XSRF-TOKEN"]};uni_session=${cookies["uni_session"]}",
-      "origin":"https://unicitizens.com",
+      "origin":"https://unicitizens.io",
       "pragma":"no-cache",
-      "referer":"https://unicitizens.com/signin",
+      "referer":"https://unicitizens.io/signin",
       "sec-fetch-dest":"document",
       "sec-fetch-mode":"navigate",
       "sec-fetch-site":"same-origin",
@@ -126,7 +127,7 @@ class Basic{
      print(response.body);
      print(response.isRedirect);
 
-     if(response.body.contains("https://unicitizens.com/dashboard")) {
+     if(response.body.contains("https://unicitizens.io/dashboard")) {
 
        await prefs.setString('cookies', jsonEncode(cookies));
        await prefs.setString('dashboard', "FOUND");
@@ -149,20 +150,20 @@ class Basic{
        //   "sec-fetch-user": "?1",
        //   "upgrade-insecure-requests": "1",
        //   "user-agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/123.0.0.0 Safari/537.36",
-       //   "origin": "https://unicitizens.com",
-       //   "referer": "https://unicitizens.com/",
+       //   "origin": "https://unicitizens.io",
+       //   "referer": "https://unicitizens.io/",
        //   "intervention": '<https://www.chromestatus.com/feature/5718547946799104>; level="warning"'
        // };
        //
        // http.Response response1 = await Get(
-       //     "https://unicitizens.com/dashboard", header: dashboardheader);
+       //     "https://unicitizens.io/dashboard", header: dashboardheader);
        //
        // print("Response of Dashboard");
        // print(response1.statusCode);
        // print(response1.body.substring(600, 8000));
        // print(response1.isRedirect);
        //
-       // if (response1.body.contains("https://unicitizens.com/login")) {
+       // if (response1.body.contains("https://unicitizens.io/login")) {
        //   print("Not Found");
        //   return false;
        // }
@@ -249,7 +250,7 @@ class Basic{
   }
 
   void LoadTokens(){
-    Get("https://unicitizens.com/signin");
+    Get("https://unicitizens.io/signin");
   }
 
   Future<void> Run() async {

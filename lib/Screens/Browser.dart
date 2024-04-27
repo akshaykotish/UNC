@@ -6,6 +6,7 @@ import 'package:unc/UNCRequest/Basic.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 import '../BodyParts/AnimatedBackground.dart';
+import '../BodyParts/WaitingTimeAnimation.dart';
 
 
 class WebViewPage extends StatefulWidget {
@@ -62,8 +63,8 @@ class _WebViewPageState extends State<WebViewPage> {
       "sec-fetch-user": "?1",
       "upgrade-insecure-requests": "1",
       "user-agent": "Mozilla/5.0 (iPhone; CPU iPhone OS 16_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/16.6 Mobile/15E148 Safari/604.1",
-      "origin": "https://unicitizens.com",
-      "referer": "https://unicitizens.com/",
+      "origin": "https://unicitizens.io",
+      "referer": "https://unicitizens.io/",
       "intervention": '<https://www.chromestatus.com/feature/5718547946799104>; level="warning"'
     };
     controller.loadRequest(Uri.parse(widget.url), headers: dashboardheader);
@@ -76,7 +77,7 @@ class _WebViewPageState extends State<WebViewPage> {
         controller.runJavaScript("document.cookie=uni_session=${cookies["uni_session"].toString()}");
       },
       onPageFinished: (url) async {
-        String jscode = "document.getElementsByTagName('header')[0].innerHTML = " + '"' + "<div style='display: flex; flex-wrap: wrap; justify-content: center; align-items: center; align-content: center; width: 100%; height: 5vh; overflow: auto; flex-direction: row; color:white; font-weight:600; font-size:10pt;'><img src='https://unicitizens.com/images/logo.png' width='30%' /><div style='width:60%; text-align:right; margin-top:2%; margin-bottom:2%;'>" + widget.Title + "</div></div>" + '"';
+        String jscode = "document.getElementsByTagName('header')[0].innerHTML = " + '"' + "<div style='display: flex; flex-wrap: wrap; justify-content: center; align-items: center; align-content: center; width: 100%; height: 5vh; overflow: auto; flex-direction: row; color:white; font-weight:600; font-size:10pt;'><img src='https://unicitizens.io/images/logo.png' width='30%' /><div style='width:60%; text-align:right; margin-top:2%; margin-bottom:2%;'>" + widget.Title + "</div></div>" + '"';
         controller.runJavaScript(jscode);
         controller.runJavaScript('document.getElementById("dashboard").style = "linear-gradient(to top, #075985, #0f172a);');
         //controller.runJavaScript("document.getElementById('example_wrapper').style = 'margin-top:20%';");
@@ -95,7 +96,7 @@ class _WebViewPageState extends State<WebViewPage> {
       }
     ));
 
-    //http.Response response = await basic.Get("https://unicitizens.com/referral-user", header:dashboardheader);
+    //http.Response response = await basic.Get("https://unicitizens.io/referral-user", header:dashboardheader);
 
     // if(response.statusCode == 200)
     //   {
@@ -114,7 +115,8 @@ class _WebViewPageState extends State<WebViewPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
+        automaticallyImplyLeading: false,
+        leading: widget.Title == "Profile" ? null : IconButton(
           icon: Icon(Icons.arrow_back),
           onPressed: () {
             // Navigate back in WebView
@@ -127,7 +129,7 @@ class _WebViewPageState extends State<WebViewPage> {
         controller: controller,
 
       ) : Container(
-        child: AnimatedGradientBackground(child: Center(child: CircularProgressIndicator(color: Colors.white,))),
+        child: AnimatedGradientBackground(child: Center(child: WaitingTimeAnimation())),
       ),
     );
   }

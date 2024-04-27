@@ -19,7 +19,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
 
   int AMindex = 0;
-  var AllMenues = <Widget>[Dashboard(), AnimatedContainersPage(), WebViewPage(url: "https://unicitizens.com/profile", Title: "Profile")];
+  var AllMenues = <Widget>[Dashboard(), AnimatedContainersPage(), WebViewPage(url: "https://unicitizens.io/profile", Title: "Profile")];
 
   @override
   Widget build(BuildContext context) {

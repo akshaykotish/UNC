@@ -15,7 +15,7 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   double _opacity = 0.0;
   double _opacityofwidget = 0.0;
-  double _top = 380; // Initial top position of the logo (center of the screen)
+  double _top = 400; // Initial top position of the logo (center of the screen)
 
   bool mounted = false;
 
@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
         {
           if(mounted) {
             setState(() {
-              _top = 380;
+              _top = 300;
               _opacityofwidget = 0.0;
             });
           }
@@ -93,7 +93,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: Stack(
           children: [
             AnimatedPositioned(
-              duration: Duration(milliseconds: 400),
+              duration: Duration(milliseconds: 300),
               top: _top, // Control the vertical position of the logo
               left: MediaQuery.of(context).size.width / 2 - 100, // Center horizontally
               child: AnimatedOpacity(
@@ -108,7 +108,7 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
             // Another widget in the center of the screen
             Positioned.fill(
-              top: 100,
+              top: 150,
               child: Align(
                 alignment: Alignment.center,
                 child: Visibility(

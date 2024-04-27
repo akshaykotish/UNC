@@ -8,6 +8,7 @@ import 'package:unc/Screens/Splash.dart';
 import '../BodyParts/AnimatedBackground.dart';
 import '../BodyParts/Infocard.dart';
 import '../BodyParts/StageCards.dart';
+import '../BodyParts/WaitingTimeAnimation.dart';
 import '../UNCRequest/Dashboard.dart';
 
 
@@ -18,6 +19,7 @@ class Dashboard extends StatefulWidget {
   State<Dashboard> createState() => _DashboardState();
 }
 
+bool isloading = true;
 class _DashboardState extends State<Dashboard> {
   HandleDashboardRequest handleDashboardRequest =  HandleDashboardRequest();
 
@@ -33,9 +35,12 @@ class _DashboardState extends State<Dashboard> {
     }
     else{
       seedfundparts = HandleDashboardRequest.dashboard.seedfunding.split(";");
-      setState(() {
+      if(mounted) {
+        isloading = false;
+        setState(() {
 
-      });
+        });
+      }
     }
   }
 
@@ -49,13 +54,7 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.dashboard),
-          onPressed: () {
-            // Navigate back in WebView
-            Navigator.pop(context);
-          },
-        ),
+        automaticallyImplyLeading: false,
         title: Text("Dashboard", style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold,),),
         actions: [
           GestureDetector(
@@ -74,7 +73,7 @@ class _DashboardState extends State<Dashboard> {
           )
         ],
       ),
-      body: SingleChildScrollView(
+      body: isloading ? WaitingTimeAnimation() : SingleChildScrollView(
         child: AnimatedGradientBackground(
           child: Container(
             padding: EdgeInsets.only(top: 60),
@@ -83,7 +82,12 @@ class _DashboardState extends State<Dashboard> {
                 Container(
                   width: double.infinity,
                   margin: EdgeInsets.only(left: 20, bottom: 20),
-                  child: Text("Hello " + HandleDashboardRequest.dashboard.FullName + ",", style: TextStyle(fontSize: 18, color: Colors.white), textAlign: TextAlign.start,),
+                  child: Row(
+                    children: [
+                      Text("Hello ", style: TextStyle(fontSize: 18, color: Colors.white), ),
+                      Text(HandleDashboardRequest.dashboard.FullName + "!", style: TextStyle(fontSize: 18, color: Colors.white, fontWeight: FontWeight.bold), textAlign: TextAlign.start,),
+                    ],
+                  ),
                 ),
                 BusinessCardWidget(
                         CardHolderName: HandleDashboardRequest.dashboard.FullName,
@@ -93,12 +97,18 @@ class _DashboardState extends State<Dashboard> {
                 SizedBox(height: 10,),
                 //MetaMaskCard(),
                 SizedBox(height: 20,),
+                Container(
+                    margin: EdgeInsets.only(left: 20, top: 20,),
+                    width: double.infinity,
+                    child: Text("Seed Funding", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold), textAlign: TextAlign.left,)
+                ),
                 BlurryCard(
                   icon: seedfundparts.length > 2 ? seedfundparts[1].contains("Open") ? Icons.trending_up : Icons.curtains_closed_rounded : Icons.token,
                   text: seedfundparts.length > 1 ? seedfundparts[0].toString() : "",
                   number: seedfundparts.length > 3 ? seedfundparts[2].toString() : "",
                   status: seedfundparts.length > 2 ? seedfundparts[1] : "",
                   change: seedfundparts.length > 4 ? seedfundparts[3]: "",
+                  iconimage: "seedfundclose",
                 ),
                 SizedBox(height: 20,),
                 Container(
@@ -116,6 +126,7 @@ class _DashboardState extends State<Dashboard> {
                       details: parts[2] + "=" + parts[3],
                       status: parts[1],
                       change: "",
+                      iconimage: parts[parts.length - 1],
                     );
                   }).toList(),
                 ),
@@ -133,8 +144,9 @@ class _DashboardState extends State<Dashboard> {
                       text: parts[0],
                       number: parts[1],
                       change: "",
-                      details: parts[0],
+                      //details: parts[0],
                       status: parts[1].contains("Inactive") ? "Close" : "Open",
+                      iconimage: parts[parts.length - 1],
                     );
                   }).toList(),
                 ),
@@ -154,6 +166,7 @@ class _DashboardState extends State<Dashboard> {
                       change: "",
                       details: parts[1],
                       status: parts[1].contains("Inactive") ? "Close" : "Open",
+                      iconimage: parts[parts.length - 1],
                     );
                   }).toList(),
                 ),

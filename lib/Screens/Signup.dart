@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:unc/BodyParts/WaitingTimeAnimation.dart';
 import 'package:unc/UNCRequest/Basic.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -33,12 +34,12 @@ class _SignupState extends State<Signup> {
 
   Future<void> Setup() async {
     controller.setJavaScriptMode(JavaScriptMode.unrestricted);
-    controller.loadRequest(Uri.parse("https://unicitizens.com/signup"));
+    controller.loadRequest(Uri.parse("https://unicitizens.io/signup"));
 
     print("Removing Header");
     controller.setNavigationDelegate(NavigationDelegate(
         onPageFinished: (url){
-          String jscode = "document.getElementsByTagName('header')[0].innerHTML = " + '"' + "<div style='display: flex; flex-wrap: wrap; justify-content: center; align-items: center; align-content: center; width: 100%; height: 5vh; overflow: auto; flex-direction: row; color:white; font-weight:600; font-size:10pt;'><img src='https://unicitizens.com/images/logo.png' width='30%' /><div style='width:60%; text-align:right; margin-top:2%; margin-bottom:2%;'>Sign Up</div></div>" + '"';
+          String jscode = "document.getElementsByTagName('header')[0].innerHTML = " + '"' + "<div style='display: flex; flex-wrap: wrap; justify-content: center; align-items: center; align-content: center; width: 100%; height: 5vh; overflow: auto; flex-direction: row; color:white; font-weight:600; font-size:10pt;'><img src='https://unicitizens.io/images/logo.png' width='30%' /><div style='width:60%; text-align:right; margin-top:2%; margin-bottom:2%;'>Sign Up</div></div>" + '"';
           controller.runJavaScript(jscode);
           controller.runJavaScript('document.getElementById("dashboard").style = "background:black";');
           controller.runJavaScript("document.getElementsByClassName('relative')[0].style = 'margin-bottom: 5%';");
@@ -54,7 +55,7 @@ class _SignupState extends State<Signup> {
           var cookies = await controller.runJavaScriptReturningResult("document.cookie");
           print("MDMD");
           print(cookies);
-          if(url.url!.toLowerCase().contains("signin") || url.url == "https://unicitizens.com/")
+          if(url.url!.toLowerCase().contains("signin") || url.url == "https://unicitizens.io/")
             {
               Navigator.pop(context);
             }
@@ -84,7 +85,7 @@ class _SignupState extends State<Signup> {
       body:  browserloaded ? WebViewWidget(
         controller: controller,
       ) : Center(
-        child: CircularProgressIndicator(),
+        child: WaitingTimeAnimation(),
     ),
     );
   }
